@@ -1,0 +1,10 @@
+{
+  "appName": {
+    "message": "adblock-youtube",
+    "description": "The name of the application"
+  },
+  "appDescription": {
+    "message": "No ads - No wait for skip button",
+    "description": "The description of the application"
+  }
+}
