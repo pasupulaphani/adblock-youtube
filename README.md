@@ -7,7 +7,7 @@ No wait for skip button
 Available as a [Chrome extension](https://chrome.google.com/webstore/detail/adblock-youtube/nlpakdfcpcjfhkonekdojjpnkaaododp) on web store
 
 ## Bookmarklet
-Get bookmarklet from (here)[http://pasupulaphani.github.io/adblock-youtube/#/bookmarklet]
+Get bookmarklet from http://pasupulaphani.github.io/adblock-youtube/#/bookmarklet
 
 ## Features
 - Works on Vevo/Music/Playlists ... any Youtube page..
