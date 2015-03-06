@@ -35,6 +35,14 @@ angular
                 templateUrl: 'views/demo.html',
                 controller: 'MainCtrl'
             })
+            .when('/chrome-extension', {
+                templateUrl: 'views/chrome-extension.html',
+                controller: 'MainCtrl'
+            })
+            .when('/bookmarklet', {
+                templateUrl: 'views/bookmarklet.html',
+                controller: 'MainCtrl'
+            })
             .otherwise({
                 redirectTo: '/'
             });
