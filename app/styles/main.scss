@@ -156,3 +156,15 @@ code.lang-markdown .bullet {
 .tomorrow-purple, pre .keyword, pre .javascript .function {
   color: #8959a8;
 }
+
+img {
+  max-width:100%;
+}
+
+
+@media (min-width: 1200px) {
+  .container {
+    margin-left: inherit;
+    padding-left: 100px;
+  }
+}
