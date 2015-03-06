@@ -1,4 +1,4 @@
-# adblock-youtube [Chrome extension](https://chrome.google.com/webstore/detail/adblock-youtube/nlpakdfcpcjfhkonekdojjpnkaaododp)
+# adblock-youtube (Chrome extension, bookmarklet)
 No wait for skip button
 
 [![](https://raw.githubusercontent.com/pasupulaphani/adblock-youtube/master/promo_content/Skip_YouTube_ADS_forever.png)](http://pasupulaphani.github.io/adblock-youtube/#/)
