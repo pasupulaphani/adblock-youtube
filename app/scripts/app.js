@@ -27,7 +27,7 @@ angular
                 templateUrl: 'views/main.html',
                 controller: 'MainCtrl'
             })
-            .when('/getting-started', {
+            .when('/getting-started/:item?', {
                 templateUrl: 'views/getting-started.html',
                 controller: 'MainCtrl'
             })
