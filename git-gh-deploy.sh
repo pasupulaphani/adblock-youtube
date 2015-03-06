@@ -1,6 +1,6 @@
 #!/bin/sh
 
-grunt
+# grunt
 
 printf "\n ################### Grunt done ######################### \n"
 
