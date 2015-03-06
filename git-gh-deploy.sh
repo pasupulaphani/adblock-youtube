@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# grunt
+grunt
 
 printf "\n ################### Grunt done ######################### \n"
 
@@ -24,5 +24,6 @@ else
 fi
 
 echo "Deploying $deploy_folder folder to GitHub Pages"
+echo "On failure of not branch 'git checkout --orphan gh-pages'"
 
 git push origin `git subtree split --prefix $deploy_folder gh-pages-gen`:gh-pages --force
