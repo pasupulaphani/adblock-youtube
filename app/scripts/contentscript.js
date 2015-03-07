@@ -2,28 +2,37 @@
 
 function init() {
 
-    var DEBUG = false;
+    var DEBUG = window.adbYtDebug || false;
+    DEBUG =true;
+
+    var adbYtLog = function (msg) {
+        if (console && DEBUG) {
+            console.warn(msg);
+        }
+    };
+    adbYtLog('inited');
+
     var videoAdContainer = document.getElementsByClassName('video-ads html5-stop-propagation')[0];
 
     function listener(e) {
+        adbYtLog('listener triggered');
+
         if (e.target.innerHTML.length > 0 && document.getElementsByClassName('videoAdUi').length > 0) {
-            if (console && DEBUG) {
-                console.warn('skiping video ad');
-            }
+            adbYtLog('skiping video ad');
             document.getElementsByClassName('video-stream html5-main-video')[0].src = '';
         }
 
         var flashAdContainer = document.getElementsByClassName('ad-container ad-container-single-media-element-annotations')[0];
         if (flashAdContainer && flashAdContainer.style.display !== 'none') {
-            if (console && DEBUG) {
-                console.warn('undisplay overlay ad');
-            }
+            adbYtLog('undisplay overlay ad');
             flashAdContainer.style.display = 'none';
         }
     }
 
     if (videoAdContainer) {
         videoAdContainer.addEventListener('DOMSubtreeModified', listener);
+    } else {
+        // wait for the url
     }
 }
 

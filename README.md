@@ -6,13 +6,16 @@ No wait for skip button
 ## Chrome extension
 Available as a [Chrome extension](https://chrome.google.com/webstore/detail/adblock-youtube/nlpakdfcpcjfhkonekdojjpnkaaododp) on web store
 
+- Works on Vevo/Music/Playlists ... any Youtube page..
+- Automatically removes video ads.
+- Removes video ads seamlessly.
+- No overlay ads.
+
 ## Bookmarklet
 Get bookmarklet from http://pasupulaphani.github.io/adblock-youtube/#/bookmarklet
 
-## Features
-- Works on Vevo/Music/Playlists ... any Youtube page..
-- No more wait for Youtube skip button.
-- Removes video ads seamlessly.
+- Skip ads any youtube Web page on the fly by installing Bookmarklet.
+- No more wait for Youtube skip ad button.
 - No overlay ads.
 
 ## Contributing
