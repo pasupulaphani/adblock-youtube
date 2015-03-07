@@ -3,14 +3,14 @@
 function init() {
 
     var DEBUG = window.adbYtDebug || false;
-    DEBUG =true;
+    DEBUG = true;
 
-    var adbYtLog = function (msg) {
+    var adbYtLog = function(msg) {
         if (console && DEBUG) {
             console.warn(msg);
         }
     };
-    adbYtLog('inited');
+    adbYtLog('inited 2');
 
     var videoAdContainer = document.getElementsByClassName('video-ads html5-stop-propagation')[0];
 
@@ -32,8 +32,47 @@ function init() {
     if (videoAdContainer) {
         videoAdContainer.addEventListener('DOMSubtreeModified', listener);
     } else {
-        // wait for the url
+        console.warn("div not found")
     }
 }
 
 init();
+
+
+
+var MutationObserver = (function() {
+    var prefixes = ['WebKit', 'Moz', 'O', 'Ms', '']
+    for (var i = 0; i < prefixes.length; i++) {
+        if (prefixes[i] + 'MutationObserver' in window) {
+            return window[prefixes[i] + 'MutationObserver'];
+        }
+    }
+    return false;
+}());
+
+if (MutationObserver) {
+
+    // select the target node
+    var target = document.querySelector('.player');
+    console.warn(target)
+        // create an observer instance
+    var observer = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+            console.warn(mutation);
+        });
+    });
+
+    // configuration of the observer:
+    var config = {
+        attributes: true,
+        childList: true,
+        characterData: true
+    }
+
+    // pass in the target node, as well as the observer options
+    observer.observe(target, config);
+
+
+} else {
+    // Fallback
+}
