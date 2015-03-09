@@ -1,47 +1,81 @@
 'use strict';
 
-function init() {
+// function init() {
 
-    var DEBUG = window.adbYtDebug || false;
-    DEBUG = true;
+//     var DEBUG = window.adbYtDebug || false;
+//     DEBUG = true;
 
-    var adbYtLog = function(msg) {
-        if (console && DEBUG) {
-            console.warn(msg);
-        }
-    };
-    adbYtLog('inited 2');
+//     var adbYtLog = function(msg) {
+//         if (console && DEBUG) {
+//             console.warn(msg);
+//         }
+//     };
+//     adbYtLog('inited 2');
 
-    var videoAdContainer = document.getElementsByClassName('video-ads html5-stop-propagation')[0];
+//     var videoAdContainer = document.getElementsByClassName('video-ads html5-stop-propagation')[0];
 
-    function listener(e) {
-        adbYtLog('listener triggered');
+//     function listener(e) {
+//         adbYtLog('listener triggered');
 
-        if (e.target.innerHTML.length > 0 && document.getElementsByClassName('videoAdUi').length > 0) {
-            adbYtLog('skiping video ad');
-            document.getElementsByClassName('video-stream html5-main-video')[0].src = '';
-        }
+//         if (e.target.innerHTML.length > 0 && document.getElementsByClassName('videoAdUi').length > 0) {
+//             adbYtLog('skiping video ad');
+//             document.getElementsByClassName('video-stream html5-main-video')[0].src = '';
+//         }
 
-        var flashAdContainer = document.getElementsByClassName('ad-container ad-container-single-media-element-annotations')[0];
-        if (flashAdContainer && flashAdContainer.style.display !== 'none') {
-            adbYtLog('undisplay overlay ad');
-            flashAdContainer.style.display = 'none';
-        }
+//         var flashAdContainer = document.getElementsByClassName('ad-container ad-container-single-media-element-annotations')[0];
+//         if (flashAdContainer && flashAdContainer.style.display !== 'none') {
+//             adbYtLog('undisplay overlay ad');
+//             flashAdContainer.style.display = 'none';
+//         }
+//     }
+
+//     if (videoAdContainer) {
+//         videoAdContainer.addEventListener('DOMSubtreeModified', listener);
+//     } else {
+//         console.warn("div not found")
+//     }
+// }
+
+var DEBUG = window.adbYtDebug || false;
+DEBUG = true;
+
+var adbYtLog = function(msg) {
+    if (console && DEBUG) {
+        console.warn(msg);
     }
+};
 
-    if (videoAdContainer) {
-        videoAdContainer.addEventListener('DOMSubtreeModified', listener);
-    } else {
-        console.warn("div not found")
+function skipVideoAd() {
+
+    if (document.getElementsByClassName('videoAdUi').length > 0) {
+        adbYtLog('skiping video ad');
+        document.getElementsByClassName('video-stream html5-main-video')[0].src = '';
     }
 }
 
-init();
+function hideOverlayAd() {
 
+    var overlayAdContainer = document.getElementsByClassName('ad-container ad-container-single-media-element-annotations')[0];
+    if (overlayAdContainer && overlayAdContainer.style.display !== 'none') {
+        adbYtLog('hide overlay ad');
+        overlayAdContainer.style.display = 'none';
+    }
+}
+
+function clearAds() {
+    skipVideoAd();
+    hideOverlayAd();
+}
+
+function DOMSTlistener(e) {
+
+    adbYtLog('DOM event listener triggered');
+    clearAds();
+}
 
 
 var MutationObserver = (function() {
-    var prefixes = ['WebKit', 'Moz', 'O', 'Ms', '']
+    var prefixes = ['WebKit', 'Moz', 'O', 'Ms', ''];
     for (var i = 0; i < prefixes.length; i++) {
         if (prefixes[i] + 'MutationObserver' in window) {
             return window[prefixes[i] + 'MutationObserver'];
@@ -50,29 +84,50 @@ var MutationObserver = (function() {
     return false;
 }());
 
-if (MutationObserver) {
+var moviePlayer = document.querySelector('.html5-main-video');
 
-    // select the target node
-    var target = document.querySelector('.player');
-    console.warn(target)
-        // create an observer instance
+var createObserver = function() {
+
+    // create an observer instance
     var observer = new MutationObserver(function(mutations) {
         mutations.forEach(function(mutation) {
-            console.warn(mutation);
+            adbYtLog(mutation);
+
+            clearAds();
         });
     });
 
     // configuration of the observer:
     var config = {
         attributes: true,
-        childList: true,
-        characterData: true
-    }
+        childList: false,
+        characterData: false
+    };
 
     // pass in the target node, as well as the observer options
-    observer.observe(target, config);
+    observer.observe(moviePlayer, config);
+};
 
+function init() {
+    if (MutationObserver) {
 
-} else {
-    // Fallback
+        adbYtLog('init: using MutationObserver');
+        createObserver();
+    } else {
+
+        adbYtLog('init: using Mutation Events');
+        moviePlayer.addEventListener('DOMSubtreeModified', DOMSTlistener);
+    }
+}
+
+if (/https?:\/\/(\w*.)?youtube.com/i.test(window.location.href.toLowerCase())) {
+
+    if (moviePlayer) {
+
+        adbYtLog('has moviePlayer');
+        init();
+    } else {
+
+        // todo: fallback if movePlayer is not avail
+    }
 }
