@@ -8,20 +8,38 @@ var adbYtLog = function(msg) {
     }
 };
 
+var isOpera = !!window.opera || navigator.userAgent.indexOf(' OPR/') >= 0;
+var isChrome = !!window.chrome && !isOpera;
 var player = document.querySelector('#player');
 
-function skipAds(e) {
-    adbYtLog('listener triggered');
+function skipVideoAd() {
 
-    if (e.target.innerHTML.length > 0 && document.getElementsByClassName('videoAdUi').length > 0) {
+    if (document.getElementsByClassName('videoAdUi').length > 0) {
         adbYtLog('skiping video ad');
         document.getElementsByClassName('video-stream html5-main-video')[0].src = '';
     }
+}
 
-    var flashAdContainer = document.getElementsByClassName('ad-container ad-container-single-media-element-annotations')[0];
-    if (flashAdContainer && flashAdContainer.style.display !== 'none') {
-        adbYtLog('undisplay overlay ad');
-        flashAdContainer.style.display = 'none';
+function hideOverlayAd() {
+
+    var overlayAdContainer = document.getElementsByClassName('ad-container ad-container-single-media-element-annotations')[0];
+    if (overlayAdContainer && overlayAdContainer.style.display !== 'none') {
+        adbYtLog('hide overlay ad');
+        overlayAdContainer.style.display = 'none';
+    }
+}
+
+function clearAds() {
+    skipVideoAd();
+    hideOverlayAd();
+}
+
+function DOMSTlistener(e) {
+
+    adbYtLog('DOM event listener triggered');
+
+    if (e.target.innerHTML.length > 0) {
+        clearAds();
     }
 }
 
@@ -33,8 +51,17 @@ function init() {
 
         adbYtLog('inited');
         player.removeEventListener('DOMSubtreeModified', init);
-        videoAdContainer.addEventListener('DOMSubtreeModified', skipAds);
+        videoAdContainer.addEventListener('DOMSubtreeModified', DOMSTlistener);
     }
 }
 
-player.addEventListener('DOMSubtreeModified', init);
+
+if (/https?:\/\/(\w*.)?youtube.com/i.test(window.location.href.toLowerCase())) {
+
+    if (isChrome) {
+
+        player.addEventListener('DOMSubtreeModified', init);
+    } else {
+        clearAds();
+    }
+}
