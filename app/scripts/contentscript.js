@@ -45,7 +45,7 @@ function DOMSTlistener(e) {
 
 function init() {
 
-    var videoAdContainer = document.getElementsByClassName('video-ads html5-stop-propagation')[0];
+    var videoAdContainer = document.getElementsByClassName('video-ads')[0];
 
     if (videoAdContainer) {
 
